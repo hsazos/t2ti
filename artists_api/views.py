@@ -95,7 +95,7 @@ def artist_albums(request, artist_id):
       serializer_data.pop("self_url")
 
       del serializer.data["self_url"]
-      return JsonResponse(serializer.data, safe=False, status=409)
+      return JsonResponse(serializer_data, safe=False, status=409)
     data["id"] = str(b64encode((data["name"] + ":" + str(artist_id)).encode()).decode('utf-8'))
     data["artist_id"] = artist_id
     serializer = AlbumSerializer(data=data)
@@ -169,7 +169,7 @@ def tracks_by_album(request, album_id):
       serializer_data["self"] = serializer_data["self_url"]
       serializer_data.pop("self_url")
 
-      return JsonResponse(serializer.data, safe=False, status=409)
+      return JsonResponse(serializer_data, safe=False, status=409)
     data["id"] = str(b64encode((data["name"] + ":" + str(album_id)).encode()).decode('utf-8'))
     data["album_id"] = album_id
     serializer = TrackSerializer(data=data)
