@@ -33,6 +33,8 @@ def Artist_list(request):
     if error["error"] == 409:
       buscado = Artist.objects.filter(name=data["name"])
       serializer = ArtistSerializer(buscado[0])
+      serializer.data["self"] = serializer.data["self_url"]
+      del serializer.data["self_url"]
       return JsonResponse(serializer.data, safe=False, status=409)
     data["id"] = str(b64encode(data['name'].encode()).decode('utf-8'))
     serializer = ArtistSerializer(data=data)
@@ -86,6 +88,8 @@ def artist_albums(request, artist_id):
     if error["error"] == 409:
       buscado = Album.objects.filter(name=data["name"])
       serializer = AlbumSerializer(buscado[0])
+      serializer.data["self"] = serializer.data["self_url"]
+      del serializer.data["self_url"]
       return JsonResponse(serializer.data, safe=False, status=409)
     data["id"] = str(b64encode((data["name"] + ":" + str(artist_id)).encode()).decode('utf-8'))
     data["artist_id"] = artist_id
@@ -156,6 +160,8 @@ def tracks_by_album(request, album_id):
     if error["error"] == 409:
       buscado = Track.objects.filter(name=data["name"])
       serializer = TrackSerializer(buscado[0])
+      serializer.data["self"] = serializer.data["self_url"]
+      del serializer.data["self_url"]
       return JsonResponse(serializer.data, safe=False, status=409)
     data["id"] = str(b64encode((data["name"] + ":" + str(album_id)).encode()).decode('utf-8'))
     data["album_id"] = album_id
