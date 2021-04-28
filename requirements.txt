@@ -1,3 +1,7 @@
+APScheduler==3.6.3
+argcomplete==1.12.2
+argon2-cffi==20.1.0
+arrow==1.0.3
 asgiref==3.3.1
 async-generator==1.10
 attrs==20.2.0
@@ -36,17 +40,12 @@ jsonschema==3.2.0
 jupyter-client==6.1.7
 jupyter-core==4.6.3
 jupyterlab==2.2.8
-django-heroku==0.3.1
 jupyterlab-pygments==0.1.1
 jupyterlab-server==1.2.0
 kiwisolver==1.2.0
 Mako==1.1.4
 Markdown==3.3.4
 MarkupSafe==1.1.1
-marshmallow==3.11.1
-marshmallow-sqlalchemy==0.24.2
-mistune==0.8.4
-mlxtend==0.17.3
 nbclient==0.5.0
 nbconvert==6.0.5
 nbformat==5.0.7
@@ -63,8 +62,6 @@ prompt-toolkit==3.0.7
 pycodestyle==2.7.0
 pycparser==2.20
 pydot==1.4.1
-Pygments==2.7.1
-pymongo==3.11.1
 pyparsing==2.4.7
 pyrsistent==0.17.3
 python-dateutil==2.8.1
