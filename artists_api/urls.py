@@ -4,7 +4,7 @@ from .views import Artist_list, specific_artist, artist_albums, artist_tracks_GE
         play_all_album_tracks, play_all_artist_tracks, play_track
 
 urlpatterns = [
-    path('artists/', Artist_list),
+    path('artists', Artist_list),
     path('artists/<artist_id>', specific_artist),
     path('artists/<artist_id>/albums', artist_albums),
     path('artists/<artist_id>/tracks', artist_tracks_GET),
