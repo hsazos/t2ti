@@ -79,7 +79,7 @@ def artist_albums(request, artist_id):
     error = error_checker_album(artist_id ,data)
     if error["error"] != 0:
       return JsonResponse({"error": "error"}, status=error["error"])
-    data["id"] = str(b64encode(data["name"].encode()).decode('utf-8'))
+    data["id"] = str(b64encode((data["name"] + ":" + str(artist_id)).encode()).decode('utf-8'))
     data["artist_id"] = artist_id
     serializer = AlbumSerializer(data=data)
     if serializer.is_valid():
@@ -145,7 +145,7 @@ def tracks_by_album(request, album_id):
     error = error_checker_track(album_id, data)
     if error["error"] != 0:
       return JsonResponse({"error": "error"}, status=error["error"])
-    data["id"] = str(b64encode(data["name"].encode()).decode('utf-8'))
+    data["id"] = str(b64encode((data["name"] + ":" + str(album_id)).encode()).decode('utf-8'))
     data["album_id"] = album_id
     serializer = TrackSerializer(data=data)
     if serializer.is_valid():
