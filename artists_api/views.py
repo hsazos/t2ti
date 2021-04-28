@@ -28,11 +28,15 @@ def Artist_list(request):
   elif request.method == 'POST':
     data = JSONParser().parse(request)
     error = error_checker_artista(data)
-    if error["error"] != 0:
+    if error["error"] != 0 and error["error"] != 409:
       return JsonResponse({"error": "error"}, status=error["error"])
+    if error["error"] == 409:
+      buscado = Artist.objects.filter(name=data["name"])
+      serializer = ArtistSerializer(buscado[0])
+      return JsonResponse(serializer.data, safe=False, status=409)
     data["id"] = str(b64encode(data['name'].encode()).decode('utf-8'))
     serializer = ArtistSerializer(data=data)
-    if serializer.is_valid():
+    if serializer.is_valid( ):
       
       serializer.validated_data["albums"] = "https://t2ti.herokuapp.com/artists/" + serializer.validated_data["id"] +"/albums"
       serializer.validated_data["tracks"] = "https://t2ti.herokuapp.com/artists/" + serializer.validated_data["id"] +"/tracks"
@@ -77,8 +81,12 @@ def artist_albums(request, artist_id):
   elif request.method == 'POST':
     data = JSONParser().parse(request)
     error = error_checker_album(artist_id ,data)
-    if error["error"] != 0:
+    if error["error"] != 0 and error["error"] !=409:
       return JsonResponse({"error": "error"}, status=error["error"])
+    if error["error"] == 409:
+      buscado = Album.objects.filter(name=data["name"])
+      serializer = AlbumSerializer(buscado[0])
+      return JsonResponse(serializer.data, safe=False, status=409)
     data["id"] = str(b64encode((data["name"] + ":" + str(artist_id)).encode()).decode('utf-8'))
     data["artist_id"] = artist_id
     serializer = AlbumSerializer(data=data)
@@ -143,8 +151,12 @@ def tracks_by_album(request, album_id):
   if request.method == "POST":
     data = JSONParser().parse(request)
     error = error_checker_track(album_id, data)
-    if error["error"] != 0:
+    if error["error"] != 0 and error["error"] !=409:
       return JsonResponse({"error": "error"}, status=error["error"])
+    if error["error"] == 409:
+      buscado = Track.objects.filter(name=data["name"])
+      serializer = TrackSerializer(buscado[0])
+      return JsonResponse(serializer.data, safe=False, status=409)
     data["id"] = str(b64encode((data["name"] + ":" + str(album_id)).encode()).decode('utf-8'))
     data["album_id"] = album_id
     serializer = TrackSerializer(data=data)
