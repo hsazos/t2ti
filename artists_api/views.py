@@ -107,7 +107,7 @@ def artist_albums(request, artist_id):
       serializer.validated_data["self"] = serializer.validated_data["self_url"]
       del serializer.validated_data["self_url"]
       serializer.validated_data["artist_id"] = serializer.validated_data["artist_id"].id
-      return JsonResponse(serializer.validated_data, status=201)
+      return JsonResponse(serializer.validated_data, status=201, safe=False)
 
 
 @csrf_exempt
@@ -118,7 +118,7 @@ def artist_tracks_GET(request, artist_id):
       return JsonResponse({"error": "error"}, status = 400)
     serializer = TrackSerializer(tracks, many=True)
     serializer = funcionilla(serializer)
-    return JsonResponse(serializer.data, status =200)
+    return JsonResponse(serializer.data, status =200, safe=False)
     
 @csrf_exempt
 def get_all_albums(request):
@@ -128,7 +128,7 @@ def get_all_albums(request):
       return JsonResponse({}, status=200)
     serializer = AlbumSerializer(albums, many=True)
     serializer = funcionilla(serializer)
-    return JsonResponse(serializer.data, status=200)
+    return JsonResponse(serializer.data, status=200, safe=False)
 @csrf_exempt
 def album_by_id(request, album_id):
   album = Album.objects.filter(id=album_id)
