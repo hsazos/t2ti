@@ -30,6 +30,8 @@ def error_checker_album(artist_id ,album):
   if type(album["name"]) != str or type(album["genre"]) != str:
     return ({"error": 400})
   album = Album.objects.filter(name=album["name"])
+  print("LO PRINTIE")
+  print(album)
   if len(album) > 0:
     return({"error": 409})
   artista = Artist.objects.filter(id=artist_id)
