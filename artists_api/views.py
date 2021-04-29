@@ -114,9 +114,10 @@ def artist_albums(request, artist_id):
 @csrf_exempt
 def artist_tracks_GET(request, artist_id):
   if request.method ==["GET"]:
+    artista = Artist.objects.filter(id = artist_id)
     tracks = Track.objects.filter(artist="/artists/" + artist_id)
-    if len(tracks) == 0:
-      return JsonResponse({"error": "error"}, status = 400)
+    if len(artista) == 0:
+      return JsonResponse({"error": "error"}, status = 422)
     serializer = TrackSerializer(tracks, many=True)
     serializer = funcionilla(serializer)
     return JsonResponse(serializer.data, status =200, safe=False)
