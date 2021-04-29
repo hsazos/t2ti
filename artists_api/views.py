@@ -74,8 +74,9 @@ def specific_artist(request, artist_id):
 @csrf_exempt
 def artist_albums(request, artist_id):
   if request.method == 'GET':
+    artista = Artist.objects.get(id=artist_id)
     albumes = Album.objects.filter(artist_id=artist_id)
-    if not albumes:
+    if not artista:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
       serializer = AlbumSerializer(albumes, many=True)
