@@ -42,9 +42,9 @@ def Artist_list(request):
     serializer = ArtistSerializer(data=data)
     if serializer.is_valid( ):
       
-      serializer.validated_data["albums"] = "https://t2ti.herokuapp.com/artists/" + serializer.validated_data["id"] +"/albums"
-      serializer.validated_data["tracks"] = "https://t2ti.herokuapp.com/artists/" + serializer.validated_data["id"] +"/tracks"
-      serializer.validated_data["self_url"] = "https://t2ti.herokuapp.com/artists/" + serializer.validated_data["id"]
+      serializer.validated_data["albums"] = "https://t2ti.herokuapp.com/artists" + serializer.validated_data["id"] +"/albums"
+      serializer.validated_data["tracks"] = "https://t2ti.herokuapp.com/artists" + serializer.validated_data["id"] +"/tracks"
+      serializer.validated_data["self_url"] = "https://t2ti.herokuapp.com/artists" + serializer.validated_data["id"]
       serializer.save()
       serializer.validated_data["self"] = serializer.validated_data["self_url"]
       del serializer.validated_data["self_url"]
@@ -101,9 +101,9 @@ def artist_albums(request, artist_id):
     data["artist_id"] = artist_id
     serializer = AlbumSerializer(data=data)
     if serializer.is_valid():
-      serializer.validated_data["artist"] = "https://t2ti.herokuapp.com/artist/" + str(artist_id)
-      serializer.validated_data["tracks"] = "https://t2ti.herokuapp.com/albums/" + serializer.validated_data["id"] + "/tracks"
-      serializer.validated_data["self_url"] = "https://t2ti.herokuapp.com/albums/" + serializer.validated_data["id"]
+      serializer.validated_data["artist"] = "https://t2ti.herokuapp.com/artist" + str(artist_id)
+      serializer.validated_data["tracks"] = "https://t2ti.herokuapp.com/albums" + serializer.validated_data["id"] + "/tracks"
+      serializer.validated_data["self_url"] = "https://t2ti.herokuapp.com/albums" + serializer.validated_data["id"]
       serializer.save()
       serializer.validated_data["self"] = serializer.validated_data["self_url"]
       del serializer.validated_data["self_url"]
@@ -176,9 +176,9 @@ def tracks_by_album(request, album_id):
     serializer = TrackSerializer(data=data)
     if serializer.is_valid():
       serializer.validated_data["times_played"] = 0
-      serializer.validated_data["album"] = "https://t2ti.herokuapp.com/albums/" + str(album_id)
-      serializer.validated_data["self_url"] = "https://t2ti.herokuapp.com/tracks/" +str(serializer.validated_data["id"])
-      serializer.validated_data["artist"] = "https://t2ti.herokuapp.com/artists/" + str(album_id)
+      serializer.validated_data["album"] = "https://t2ti.herokuapp.com/albums" + str(album_id)
+      serializer.validated_data["self_url"] = "https://t2ti.herokuapp.com/tracks" +str(serializer.validated_data["id"])
+      serializer.validated_data["artist"] = "https://t2ti.herokuapp.com/artists" + str(album_id)
       serializer.save()
       serializer.validated_data["self"] = serializer.validated_data["self_url"]
       del serializer.validated_data["self_url"]
