@@ -216,8 +216,6 @@ def all_tracks(request):
 @csrf_exempt
 def track_by_id(request, track_id):
 
-
-
   if request.method == "GET":
     try:
       tracks =Track.objects.filter( id=track_id)
@@ -232,7 +230,7 @@ def track_by_id(request, track_id):
 
   elif request.method == "DELETE":
     try:
-      tracks =Track.objects.filter( id=track_id)
+      tracks =Track.objects.get( id=track_id)
     except:
       return JsonResponse({}, status=404)
     else:
