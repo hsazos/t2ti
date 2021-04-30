@@ -38,8 +38,7 @@ def Artist_list(request):
       serializer_data.pop("self_url")
 
       return JsonResponse(serializer_data, safe=False, status=409)
-    data["id"] = str(b64encode(data['name'].encode()).decode('utf-8'))
-    data["id"] = data["id"].strip("=")
+    data["id"] = (b64encode(data['name'].encode()).decode('utf-8'))[0:22]
     serializer = ArtistSerializer(data=data)
     if serializer.is_valid( ):
       
@@ -98,8 +97,10 @@ def artist_albums(request, artist_id):
 
       del serializer.data["self_url"]
       return JsonResponse(serializer_data, safe=False, status=409)
-    data["id"] = str(b64encode((data["name"] + ":" + str(artist_id))))
-    data["id"] = data["id"].strip("=")
+    string = data["name"] + ":" + str(artist_id)
+    resultado = (b64encode(string.encode()).decode('utf-8'))
+    resultado = resultado[0:22]
+    data["id"] = resultado
     data["artist_id"] = artist_id
     serializer = AlbumSerializer(data=data)
     if serializer.is_valid():
@@ -174,8 +175,10 @@ def tracks_by_album(request, album_id):
       serializer_data.pop("self_url")
 
       return JsonResponse(serializer_data, safe=False, status=409)
-    data["id"] = str(b64encode((data["name"] + ":" + str(album_id))))
-    data["id"] = data["id"].strip("=")
+    string = (data["name"] + ":" + str(album_id))
+    resultado = (b64encode(string.encode()).decode('utf-8'))
+    resultado = resultado[0:22]
+    data["id"] = resultado
     data["album_id"] = album_id
     serializer = TrackSerializer(data=data)
     if serializer.is_valid():
