@@ -63,7 +63,7 @@ def specific_artist(request, artist_id):
       serializer_data = serializer.data
       serializer_data["self"] = serializer_data["self_url"]
       del serializer_data["self_url"]
-      return JsonResponse(serializer.data, status=200)
+      return JsonResponse(serializer_data, status=200)
   elif request.method == 'DELETE':
     artista = Artist.objects.filter(id = artist_id)
     if len(artista) == 0:
