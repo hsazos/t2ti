@@ -57,11 +57,11 @@ def specific_artist(request, artist_id):
   
   if request.method == 'GET':
     try:
-      artista = Artist.objects.filter(id = artist_id)
+      artista = Artist.objects.get(id = artist_id)
     except:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
-      serializer = ArtistSerializer(artista[0])
+      serializer = ArtistSerializer(artista)
       serializer_data = serializer.data
       serializer_data["self"] = serializer_data["self_url"]
       del serializer_data["self_url"]
