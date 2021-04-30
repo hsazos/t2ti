@@ -255,6 +255,7 @@ def play_track(request, track_id):
   track = Track.objects.filter(id=track_id)
   if len(track) == 0:
     return JsonResponse({}, status=404)
+  track = track[0]
   track.times_played +=1
   track.save()
   return JsonResponse({}, status=200)
