@@ -79,7 +79,7 @@ def specific_artist(request, artist_id):
 def artist_albums(request, artist_id):
   if request.method == 'GET':
     try:
-      artista = Artist.objects.filter(id=artist_id)
+      artista = Artist.objects.get(id=artist_id)
       albumes = Album.objects.filter(artist_id=artist_id)
     except:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
