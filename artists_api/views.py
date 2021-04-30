@@ -204,9 +204,7 @@ def all_tracks(request):
   if len(tracks) == 0:
     return JsonResponse({}, status=200)
   serializer = TrackSerializer(tracks, many=True)
-  serializer_data = serializer.data
-  serializer_data["self"] = serializer_data["self_url"]
-  del serializer_data["self_url"]
+  serializer = funcionilla(serializer)
   return JsonResponse(serializer.data, status=200, safe=False)
   
 @csrf_exempt
@@ -217,7 +215,9 @@ def track_by_id(request, track_id):
     if len(tracks) == 0:
       return JsonResponse({}, status=404)
     serializer = TrackSerializer(tracks, many=True)
-    serializer = funcionilla(serializer)
+    serializer_data = serializer.data
+    serializer_data["self"] = serializer_data["self_url"]
+    del serializer_data["self_url"]
     return JsonResponse(serializer.data, status=200, safe=False)
 
   elif request.method == "DELETE":
