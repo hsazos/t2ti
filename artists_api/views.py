@@ -143,8 +143,10 @@ def album_by_id(request, album_id):
     if len(album) == 0:
       return JsonResponse({}, status=404)
     serializer = AlbumSerializer(album)
-    serializer = funcionilla(serializer)
-    return JsonResponse(serializer.data, status=200)
+    serializer_data = serializer.data
+    serializer_data["self"] = serializer_data["self_url"]
+    del serializer_data["self_url"]
+    return JsonResponse(serializer_data, status=200)
 
   elif request.method == "DELETE":
     if len(album) == 0:
