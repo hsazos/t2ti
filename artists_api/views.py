@@ -60,7 +60,7 @@ def specific_artist(request, artist_id):
     if not artista:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
-      serializer = ArtistSerializer(artista[0])
+      serializer = ArtistSerializer(artista)
       serializer_data = serializer.data
       serializer_data["self"] = serializer_data["self_url"]
       del serializer_data["self_url"]
@@ -143,7 +143,7 @@ def album_by_id(request, album_id):
   if request.method == "GET": 
     if len(album) == 0:
       return JsonResponse({}, status=404)
-    serializer = AlbumSerializer(album[0])
+    serializer = AlbumSerializer(album)
     serializer_data = serializer.data
     serializer_data["self"] = serializer_data["self_url"]
     del serializer_data["self_url"]
@@ -215,7 +215,7 @@ def track_by_id(request, track_id):
   if request.method == "GET":
     if len(tracks) == 0:
       return JsonResponse({}, status=404)
-    serializer = TrackSerializer(tracks[0])
+    serializer = TrackSerializer(tracks)
     serializer_data = serializer.data
     serializer_data["self"] = serializer_data["self_url"]
     del serializer_data["self_url"]
