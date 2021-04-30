@@ -6,6 +6,7 @@ from .models import Artist, Album, Track
 from .serializers import ArtistSerializer, AlbumSerializer, TrackSerializer
 from base64 import b64encode
 from .error_checker import error_checker_album, error_checker_artista, error_checker_track
+from django.shortcuts import get_object_or_404, get_list_or_404
 # Create your views here.
 
 def funcionilla(serializerd):
@@ -55,7 +56,7 @@ def Artist_list(request):
 def specific_artist(request, artist_id):
   
   if request.method == 'GET':
-    artista = Artist.objects.filter(id = artist_id)
+    artista = get_object_or_404(Artist,id = artist_id)
     if not artista:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
@@ -76,7 +77,7 @@ def specific_artist(request, artist_id):
 @csrf_exempt
 def artist_albums(request, artist_id):
   if request.method == 'GET':
-    artista = Artist.objects.get(id=artist_id)
+    artista = get_object_or_404(Artist, id=artist_id)
     albumes = Album.objects.filter(artist_id=artist_id)
     if not artista:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
@@ -138,7 +139,7 @@ def get_all_albums(request):
     return JsonResponse(serializer.data, status=200, safe=False)
 @csrf_exempt
 def album_by_id(request, album_id):
-  album = Album.objects.filter(id=album_id)
+  album = get_object_or_404(Albums, id=album_id)
   if request.method == "GET": 
     if len(album) == 0:
       return JsonResponse({}, status=404)
@@ -209,7 +210,7 @@ def all_tracks(request):
   
 @csrf_exempt
 def track_by_id(request, track_id):
-  tracks = Track.objects.filter(id=track_id)
+  tracks = get_object_or_404(Track, id=track_id)
 
   if request.method == "GET":
     if len(tracks) == 0:
