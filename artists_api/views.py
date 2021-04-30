@@ -56,11 +56,12 @@ def Artist_list(request):
 def specific_artist(request, artist_id):
   
   if request.method == 'GET':
-    artista = get_object_or_404(Artist,id = artist_id)
-    if not artista:
+    try:
+      artista = Artist.objects.filter(id = artist_id)
+    except:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
-      serializer = ArtistSerializer(artista)
+      serializer = ArtistSerializer(artista[0])
       serializer_data = serializer.data
       serializer_data["self"] = serializer_data["self_url"]
       del serializer_data["self_url"]
@@ -77,9 +78,10 @@ def specific_artist(request, artist_id):
 @csrf_exempt
 def artist_albums(request, artist_id):
   if request.method == 'GET':
-    artista = get_object_or_404(Artist, id=artist_id)
-    albumes = Album.objects.filter(artist_id=artist_id)
-    if not artista:
+    try:
+      artista = Artist.objects.filter(id=artist_id)
+      albumes = Album.objects.filter(artist_id=artist_id)
+    except:
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
       serializer = AlbumSerializer(albumes, many=True)
@@ -119,14 +121,17 @@ def artist_albums(request, artist_id):
 
 @csrf_exempt
 def artist_tracks_GET(request, artist_id):
-  if request.method ==["GET"]:
-    artista = Artist.objects.filter(id = artist_id)
-    tracks = Track.objects.filter(artist="/artists/" + artist_id)
-    if len(artista) == 0:
-      return JsonResponse({"error": "error"}, status = 422)
-    serializer = TrackSerializer(tracks, many=True)
-    serializer = funcionilla(serializer)
-    return JsonResponse(serializer.data, status =200, safe=False)
+
+  if request.method =="GET":
+    try:
+      artista = Artist.objects.get(id = artist_id)
+      tracks = Track.objects.filter(artist="/artists/" + artist_id)
+    except:
+      return JsonResponse({"error": "error"}, status = 404)
+    else:
+      serializer = TrackSerializer(tracks, many=True)
+      serializer = funcionilla(serializer)
+      return JsonResponse(serializer.data, status =200, safe=False)
     
 @csrf_exempt
 def get_all_albums(request):
@@ -139,11 +144,11 @@ def get_all_albums(request):
     return JsonResponse(serializer.data, status=200, safe=False)
 @csrf_exempt
 def album_by_id(request, album_id):
-  album = get_object_or_404(Albums, id=album_id)
+  album = Album.objects.filter( id=album_id)
   if request.method == "GET": 
     if len(album) == 0:
       return JsonResponse({}, status=404)
-    serializer = AlbumSerializer(album)
+    serializer = AlbumSerializer(album[0])
     serializer_data = serializer.data
     serializer_data["self"] = serializer_data["self_url"]
     del serializer_data["self_url"]
@@ -210,19 +215,25 @@ def all_tracks(request):
   
 @csrf_exempt
 def track_by_id(request, track_id):
-  tracks = get_object_or_404(Track, id=track_id)
+
+
 
   if request.method == "GET":
-    if len(tracks) == 0:
+    try:
+      tracks =Track.objects.filter( id=track_id)
+    except:
       return JsonResponse({}, status=404)
-    serializer = TrackSerializer(tracks)
-    serializer_data = serializer.data
-    serializer_data["self"] = serializer_data["self_url"]
-    del serializer_data["self_url"]
-    return JsonResponse(serializer_data, status=200, safe=False)
+    else:
+      serializer = TrackSerializer(tracks[0])
+      serializer_data = serializer.data
+      serializer_data["self"] = serializer_data["self_url"]
+      del serializer_data["self_url"]
+      return JsonResponse(serializer_data, status=200, safe=False)
 
   elif request.method == "DELETE":
-    if len(tracks) == 0:
+    try:
+      tracks =Track.objects.filter( id=track_id)
+    except:
       return JsonResponse({}, status=404)
     else:
       tracks.delete()
