@@ -142,7 +142,7 @@ def album_by_id(request, album_id):
   if request.method == "GET": 
     if len(album) == 0:
       return JsonResponse({}, status=404)
-    serializer = AlbumSerializer(album)
+    serializer = AlbumSerializer(album[0])
     serializer_data = serializer.data
     serializer_data["self"] = serializer_data["self_url"]
     del serializer_data["self_url"]
@@ -214,11 +214,11 @@ def track_by_id(request, track_id):
   if request.method == "GET":
     if len(tracks) == 0:
       return JsonResponse({}, status=404)
-    serializer = TrackSerializer(tracks, many=True)
+    serializer = TrackSerializer(tracks[0])
     serializer_data = serializer.data
     serializer_data["self"] = serializer_data["self_url"]
     del serializer_data["self_url"]
-    return JsonResponse(serializer.data, status=200, safe=False)
+    return JsonResponse(serializer_data, status=200, safe=False)
 
   elif request.method == "DELETE":
     if len(tracks) == 0:
