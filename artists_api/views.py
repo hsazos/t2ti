@@ -60,7 +60,9 @@ def specific_artist(request, artist_id):
       return JsonResponse({"Artist does not exist": "Artista no existe"}, status=404)
     else:
       serializer = ArtistSerializer(artista[0])
-      serializer = funcionilla(serializer)
+      serializer_data = serializer.data
+      serializer_data["self"] = serializer_data["self_url"]
+      del serializer_data["self_url"]
       return JsonResponse(serializer.data, status=200)
   elif request.method == 'DELETE':
     artista = Artist.objects.filter(id = artist_id)
